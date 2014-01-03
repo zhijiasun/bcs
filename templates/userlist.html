@@ -1,0 +1,78 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/DataTables-1.9.4/media/css/demo_table.css" />
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/static/DataTables-1.9.4/media/js/jquery.js"></script>
+        <script type="text/javascript" language="javascript" src="/static/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#example').dataTable({
+            'aaSorting':[[2,'desc'], [0,'asc']]});
+        });
+        </script>
+
+        <style type="text/css">
+        .bb{
+            content: "";
+
+            line-height: 0;
+        }
+
+        .row:before, .row:after {
+            content: "";
+
+            line-height: 0;
+        }
+        </style>
+
+    </head>
+    <body>
+        <div class="container" >
+        {% include 'header2.html' %}
+        
+
+        <div class="bb" >
+        <table class="table table-striped table-bordered table-hover datatable" id="example">
+            <thead>
+                <tr>
+                    <td>用户</td>
+                    <td>费用记录</td>
+                    <td>日期</td>
+                    <td>备注</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in user_list %}
+                    {% if user.money %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.money }}</td>
+                        <td>{{ user.date|date:"Y-m-d" }}</td>
+                        <td>{{ user.comments }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% for user in user_consume_list %}
+                    {% if user.cost %}
+                    <tr>
+                        <td>{{ user.user_id}}</td>
+                        <td>-{{ user.cost }}</td>
+                        <td>{{ user.activity_id.date|date:"Y-m-d" }}</td>
+                        <td>{{ user.comments }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+    </body>
+</html>
+

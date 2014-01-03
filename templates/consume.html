@@ -1,0 +1,136 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    </head>
+
+    <script language="javascript">
+        function add(id, email, username)
+        {
+            var li = document.getElementById(email+"_"+id);
+            li.innerHTML = "";
+            var cell=document.getElementById(id);
+            cell.innerHTML += "<input type='checkbox' name='cb_"+id+"' checked='checked' value='"+email+"'>"+username+";　";
+        }
+
+        function addAll(id)
+        {
+            {% for user in all_users %}
+                add(id, "{{ user.email }}", "{{ user.username}}");
+            {% endfor %}
+            {% for user in related_users %}
+                add(id, "{{ user.email }}", "{{ user.username}}");
+            {% endfor %}
+        }
+    </script>
+
+    <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <div class="container" id="container">
+            <!--  Header -->
+            {% include 'header2.html' %}
+            <!-- Main-->
+            <div class="row">
+                <!--Left-->
+                <!-- Right -->
+                <div class="span8 offset2">
+                    <!--
+                    <form class="form-horizotal">
+                        <div class="control-group">
+                            <div class="controls">
+                                {% for ac in unconfirmed_activity_list %}
+                                <select>
+                                    <option>{{ ac.date|date:"Y-m-d" }}</option>
+                                </select>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </form>
+                -->
+
+
+                    <form class="form-horizontal" action="" method="post">
+                        {% csrf_token %}
+                        <fieldset>
+                            <div id="legend" class="">
+                                <legend class="">活动列表</legend>
+                            </div>
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>选择</td>
+                                    <td>日期</td>
+                                    <td>参与人员</td>
+                                </tr>
+
+                                <tbody>
+                                    {% for activity in unconfirmed_activity_list %}
+                                    <tr>
+                                        <td>
+                                            <input value="{{ activity.date|date:"Y-m-d" }}" type="radio" name="radio" checked="checked">
+                                        </td>
+                                        <td>{{ activity.date|date:"Y-m-d" }}</td>
+                                        <td id="{{ activity }}">
+                                            <div class="btn-group">
+                                                <a class="btn btn-mini btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    Add User
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                {% for u in all_users %}
+                                                <li id="{{ u.email }}_{{ activity }}">
+                                                    <a href=# onclick="add('{{ activity }}', '{{ u.email }}', '{{ u.username }}')">- {{ u }} -</a>
+                                                </li>
+                                                {% endfor %}
+                                                <li class="divider"></li>
+                                                <li id="all_user_{{ activity }}">
+                                                    <a href=# onclick="addAll('{{ activity }}')">- All Users -</a>
+                                                </li>
+
+                                                </ul>
+                                            </div>
+                                            {% for key,value in related_users.items %}
+
+                                                {% ifequal key.date activity.date %}
+                                                    {% if value %}
+                                                        {% for v in value %}
+                                                            <input value="{{ v.user_id.email }}" type="checkbox" name="cb_{{ activity }}" checked="checked">
+                                                            {{ v.user_id }};　
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        　 
+                                                    {% endif %}
+                                                {% endifequal %}
+                                                
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div class="control-group">
+                                <label class="control-label">花费金额</label>
+                                <div class="controls">
+                                    <input type="text" name="cost" value=0>
+                                </div>
+
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button class="btn btn-success">确认</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
+

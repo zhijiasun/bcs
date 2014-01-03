@@ -1,0 +1,66 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <div class="container">
+            <!--  Header -->
+            {% include 'header2.html' %}
+            <!-- Main-->
+            <div class="row">
+                <!--Left-->
+                <!-- Right -->
+                <div class="span8 offset2">
+                    {% if not errors %}
+                    <form class="form-horizontal" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <label class="control-label" for="inputName">姓名</label>
+                            <div class="controls">
+                                <input type="text" id="inputName" name="username" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputEmail">邮箱</label>
+                            <div class="controls">
+                                <input type="text" id="inputEmail" name="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputUserType">用户类型</label>
+                            <div class="controls">
+                                <select id="inputUserType" name="usertype">
+                                    <option value="farmer">Farmer</option>
+                                    <option value="lorder">Lorder</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="money">金额</label>
+                            <div class="controls">
+                                <input type="text" id="money" name="money" placeholder="money">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn">添加</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                        {% for error in errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
+

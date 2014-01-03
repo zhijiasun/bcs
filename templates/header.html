@@ -1,0 +1,34 @@
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <ul class="nav">
+                        <li class="divider-vertical active">
+                        	<a href="userlist.html">用户列表</a>
+                        </li> 
+                        <li class="divider-vertical">
+                        	<a href="index.html">消费记录</a>
+                        </li> 
+                        <li class="divider-vertical">
+                        	<a href="enroll.html">报名活动</a>
+                        </li> 
+                        {% if user.privilege %}
+                        <li class="divider-vertical">
+                        	<a href="activity.html">发布活动</a>
+                        </li> 
+                        <li class="divider-vertical">
+                            <a href="adduser.html">添加用户</a>
+                        </li> 
+                        <li class="divider-vertical">
+                            <a href="consume.html">添加消费</a>
+                        </li> 
+                        {% endif %}
+                        {% if user %}
+                        <li class="divider-vertical">
+                        <a href="#">Hello {{ user }}</a>
+                        </li> 
+                        {% endif %}
+                    </ul>
+                    <form action="logout.html" class="navbar-form pull-right">
+                        <button type="submit" class="btn">注销</button> 
+                    </form>
+                </div> 
+            </div> 

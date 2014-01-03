@@ -1,0 +1,63 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/css/datepicker.css" />
+    </head>
+    <body>
+        <script src="/static/js/jquery-1.10.2.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/bootstrap-datepicker.js"></script>
+        <div class="container">
+            <!--  Header -->
+            {% include 'header2.html' %}
+            <!-- Main-->
+            <div class="row">
+                <!--Left-->
+                <!-- Right -->
+                <div class="span8 offset2">
+                    
+                    {% if not errors %}
+                    <form class="form-horizontal" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <label class="control-label" for="inputDate">活动时间</label>
+                            <div class="controls">
+                                <input type="text" id="inputDate" placeholder="Date" name="activity_date">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputLocation">活动地点</label>
+                            <div class="controls">
+                                <input type="text" id="inputLocation" placeholder="Location" name="activity_location">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputComments">活动备注</label>
+                            <div class="controls">
+                                <input type="text" id="inputComments" placeholder="Comments" name="activity_comments">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn">发布</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                        {% for error in errors %}
+                            {{ error }}<br/>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+            $('#inputDate').datepicker({format: 'yyyy-mm-dd'});
+        </script>
+    </body>
+</html>

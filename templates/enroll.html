@@ -1,0 +1,102 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!--  Header -->
+            {% include 'header2.html' %}
+            <!-- Main-->
+            <div class="row">
+                <!--Left-->
+                <!-- Right -->
+                <div class="span8 offset2">
+                    {% if not selected_activity %}
+                        <form class="form-horizontal" action="enrolled.html" method="post">
+                            {% csrf_token %}
+                            <fieldset>
+                                <div id="legend" class="">
+                                    <legend class="">活动列表</legend>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>选择</td>
+                                        <td>日期</td>
+                                        <td>地点</td>
+                                        <td>场地</td>
+                                    </tr>
+                                    <tbody>
+                                        {% for activity in activity_list %}
+                                        <tr>
+                                            <td><input value="{{ activity.date|date:"Y-m-d" }}" type="radio" name="act_radio" checked="checked"></td>
+                                            <td>{{ activity.date|date:"Y-m-d" }}</td>
+                                            <td>{{ activity.location }}</td>
+                                            <td>{{ activity.comments }}</td>
+                                        </tr>
+                                        {%  endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="control-group">
+                                    <!-- Button -->
+                                    <div class="controls">
+                                        <button class="btn btn-success" id="enroll">报名</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    {% else %}
+                        <div id="legend" class="">
+                            <legend class="">你已经报名参加的活动如下:</legend>
+                        </div>
+                        <form method="POST" action="delete_enrolled">
+                            {% csrf_token %}
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>选择</td>
+                                    <td>日期</td>
+                                    <td>地点</td>
+                                    <td>场地</td>
+                                    <td>报名人员</td>
+                                </tr>
+
+                                <tbody>
+                                    {% for activity in selected_activity %}
+                                    <tr>
+                                        <td>
+                                            <input type="radio" name="delete" value="{{ activity.activity_id.date|date:"Y-m-d" }}" checked="checked">
+                                        </td>
+                                        <td>{{ activity.activity_id.date|date:"Y-m-d" }}</td>
+                                        <td>{{ activity.activity_id.location }}</td>
+                                        <td>{{ activity.activity_id.comments }}</td>
+                                        <td>
+                                            {% for user in enroll_users %}
+                                            {{ user }},
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %} 
+                                </tbody>
+                            </table>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button class="btn btn-success">取消活动</button>
+                                </div>
+                            </div>
+                        </form>
+                        {% endif %}
+
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
+

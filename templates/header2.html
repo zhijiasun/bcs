@@ -1,0 +1,64 @@
+            <div class="bb" >
+                
+                <div>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="userlist.html">消费列表</a> <span class="divider">/</span>
+                        </li>
+                        <li>
+                            <a href="index.html">活动记录</a> <span class="divider">/</span>
+                        </li>
+                        <li>
+                            <a href="enroll.html">报名活动</a>
+                        {% if user.privilege %}
+                        <span class="divider">/</span>
+                        </li>
+                        <li>
+                            <a href="activity.html">发布活动</a> <span class="divider">/</span>
+                        </li>
+                        <!--
+                        <li>
+                             <a href="adduser.html">添加用户</a> <span class="divider">/</span>
+                        </li>
+                    -->
+                        <li>
+                             <a href="usercharge.html">充值退款</a> <span class="divider">/</span>
+                        </li>
+                        <li>
+                            <a href="consume.html">添加消费</a>　　　　
+                        </li>
+                        {% else %}
+                        　　　　
+                        </li>
+                        {% endif %}
+                        {% if not user.username == 'Anonymous User' %}
+                        {% if user.privilege %}
+                        <li class="offset0">
+                        {% else %}
+                        <li class="offset2">
+                        {% endif %}
+                            <a href="#">Hello {{ user.username }}</a><span class="divider">/</span>
+                        </li> 
+                        <li>
+                            <a href="#">个人余额:{{ balance }}</a><span class="divider">/</span>
+                        </li> 
+                        <li>
+                            <a href="#">总余额:{{ total_balance }}</a><span class="divider">/</span>
+                        </li> 
+                        <li>
+                            <a href="logout.html">注销</a>
+                        </li> 
+                        {% else %}
+                        <li class="offset4">
+                            <a href="#">Hello {{ user.username }}</a><span class="divider">/</span>
+                        </li> 
+                        <li>
+                            <a href="login.html">登录</a><span class="divider">/</span>
+                        </li> 
+                        <li>
+                            <a href="register.html">注册</a>
+                        </li> 
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>

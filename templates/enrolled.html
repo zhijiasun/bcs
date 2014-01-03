@@ -1,0 +1,69 @@
+
+<html>
+    <head>
+        <title></title>
+         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <div class="container">
+            <!--  Header -->
+            {% include 'header2.html' %}
+            <!-- Main-->
+            <div class="row">
+                <!--Left-->
+                 {% include 'sidebar.html' %}
+                <!-- Right -->
+                <div class="span8">
+                    <p class="text-center">用户充值总额：XXXX;赞助：YYYY；剩余总额：MMMM;</p>
+                    {% if selected_activity %}
+                        <div id="legend" class="">
+                            <legend class="">你已经报名参加的活动如下:</legend>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>选择</td>
+                                    <td>日期</td>
+                                    <td>地点</td>
+                                    <td>场地</td>
+                                    <td>报名人员</td>
+                                </tr>
+
+                                <tbody>
+                                    {% for activity in selected_activity %}
+                                    <tr>
+                                        <td>
+                                            <input type="radio" name="delete" value="{{ activity.activity_id.date|date:"Y-m-d" }}">
+                                        </td>
+                                        <td>{{ activity.activity_id.date|date:"Y-m-d" }}</td>
+                                        <td>{{ activity.activity_id.location }}</td>
+                                        <td>{{ activity.activity_id.comments }}</td>
+                                        <td>
+                                            {% for user in enroll_users %}
+                                            {{ user }},
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %} 
+                                </tbody>
+                            </table>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button class="btn btn-success">取消活动</button>
+                                </div>
+                            </div>
+                        </form>
+                        {% endif %}
+
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
+
