@@ -13,6 +13,7 @@ import time
 from datetime import datetime
 from django.core.context_processors import csrf
 import string
+from excel_response import ExcelResponse
 
 
 GMT_FORMAT = '%b. %d, %Y'
@@ -511,3 +512,27 @@ def total_balance():
         user_consume_total = user_consume_total + u.cost
     total_balance = user_charge_total - user_consume_total
     return total_balance
+
+"""
+export data to local excel file
+the struct of the file is
+UserTable
+UserConsumeTable
+UserChargeTable
+ActivityTable
+ActivityEnrollTable
+"""
+def excel_view(request):
+	data = [
+		['UserName','Date','Cost Details','Comment'],
+	]
+
+	users = UserTable.objects.all()
+	#user_consume_all = UserConsumeTable.objects.all()
+    for u in users:
+        consume = UserConsumeTable.objects.filter(user_id=u)
+        temp_data = []
+        temp_data.append(u.username)
+
+
+	return ExcelResponse(data,'my_data')
