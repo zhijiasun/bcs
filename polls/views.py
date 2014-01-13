@@ -523,16 +523,33 @@ ActivityTable
 ActivityEnrollTable
 """
 def excel_view(request):
-	data = [
-		['UserName','Date','Cost Details','Comment'],
-	]
-
-	users = UserTable.objects.all()
-	#user_consume_all = UserConsumeTable.objects.all()
+    temp = []
+    data = [['UserName','Date','Charge Details','Comment']]
+    users = UserTable.objects.all()
     for u in users:
-        consume = UserConsumeTable.objects.filter(user_id=u)
-        temp_data = []
-        temp_data.append(u.username)
+        user_charge_list = UserChargeTable.objects.filter(user_id=u)
+        for charge in user_charge_list:
+            temp_data = []
+            temp_data.append(u.username)
+            temp_data.append(charge.date)
+            temp_data.append(charge.money)
+            temp_data.append(charge.comments)
+            data.append(temp_data)
+    temp = data
+    return ExcelResponse(temp,'my_data')
 
+def export_data(request):
+    data = [['UserName','Date','Cost Details','Comment']]
+    users = UserTable.objects.all()
+    for u in users:
+        user_consume_list = UserConsumeTable.objects.filter(user_id=u)
+        for consume in user_consume_list:
+            temp_data = []
+            temp_data.append(u.username)
+            temp_data.append(consume.activity_id.date)
+            temp_data.append(consume.cost)
+            temp_data.append(consume.comments)
+            data.append(temp_data)
+    temp = data
+    return ExcelResponse(temp,'my_data')
 
-	return ExcelResponse(data,'my_data')
